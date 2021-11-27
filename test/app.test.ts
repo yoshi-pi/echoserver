@@ -1,29 +1,49 @@
-import request from 'supertest';
-import app from '../src/app';
+import { request } from './request';
 
 describe('Test the root path', () => {
   test('It should respond with only headers', async () => {
-    const response = await request(app).get(
-      '/?headers={"content-type": "application/json", "a": "a"}'
-    );
-    expect(response.headers['content-type']).toBe('application/json');
-    expect(response.headers['a']).toBe('a');
+    const { res, body } = await request({
+      method: 'get',
+      path: '/?headers={"content-type": "application/json", "a": "a"}',
+    });
+    expect(res.headers['content-type']).toBe('application/json');
+    expect(res.headers['a']).toBe('a');
+    expect(body.length).toBe(0);
+  });
+  test('It should respond with text body', async () => {
+    const { body } = await request({
+      method: 'get',
+      path: '/?body={"type": "text", "data": "hello"}',
+    });
+    expect(body.toString()).toBe('hello');
+  });
+  test('It should respond with the trimmed JSON body', async () => {
+    const { body } = await request({
+      method: 'get',
+      path: '/?body={"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}',
+    });
+    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}');
   });
   test('It should respond with headers and body', async () => {
-    const response = await request(app).get(
-      '/?headers={"Content-Type": "application/json"}&body={"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}'
-    );
-    expect(response.headers['content-type']).toBe('application/json');
-    expect(response.body.name).toBe('echo-server');
+    const { res, body } = await request({
+      method: 'get',
+      path: '/?headers={"Content-Type": "application/json"}&body={"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}',
+    });
+    expect(res.headers['content-type']).toBe('application/json');
+    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}');
   });
-  test('It should respond with image', async () => {
-    const response = await request(app).get(
-      '/?body={"type": "image", "size": {"width": 400, "height": 200}}'
-    );
-    expect(response.statusCode).toBe(200);
+  test('It should respond with image body', async () => {
+    const { res, body } = await request({
+      method: 'get',
+      path: '/?body={"type": "image", "size": {"width": 400, "height": 200}}',
+    });
+    // TODO: write test.
   });
-  test('It should respond with image without size', async () => {
-    const response = await request(app).get('/?body={"type": "image"}');
-    expect(response.statusCode).toBe(200);
+  test('It should respond with default image body', async () => {
+    const { res, body } = await request({
+      method: 'get',
+      path: '/?body={"type": "image"}',
+    });
+    // TODO: write test.
   });
 });
