@@ -1,5 +1,6 @@
 import http, { OutgoingHttpHeaders } from 'http';
 import { ParsedBody } from './interfaces';
+import { createRectangle } from './image';
 const app = http.createServer((req, res) => {
   if (req.url === undefined) return res.end();
   const requestURL = new URL(req.url, `http://${req.headers.host}`);
@@ -13,7 +14,7 @@ const app = http.createServer((req, res) => {
   if (reqQueryBody === null) return res.end();
   const reqParsedBody: ParsedBody = JSON.parse(reqQueryBody);
   if (reqParsedBody.type === 'image') {
-    // TODO: create response body for image
+    res.write(createRectangle(reqParsedBody.size));
   } else {
     let resBody = '';
     if (typeof reqParsedBody.data === 'object') {

@@ -20,5 +20,8 @@
     "nodemon": "^2.0.14",
     "supertest": "^6.1.6",
     "ts-node": "^10.4.0"
+  },
+  "dependencies": {
+    "canvas": "^2.8.0"
   }
 }
