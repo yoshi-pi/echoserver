@@ -1,4 +1,5 @@
 import { request } from './request';
+import { imageSize } from 'image-size';
 
 describe('Test the root path', () => {
   test('It should respond with only headers', async () => {
@@ -33,17 +34,21 @@ describe('Test the root path', () => {
     expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}');
   });
   test('It should respond with image body', async () => {
-    const { res, body } = await request({
+    const { body } = await request({
       method: 'get',
       path: '/?body={"type": "image", "size": {"width": 400, "height": 200}}',
     });
-    // TODO: write test.
+    const dimensions = imageSize(body);
+    expect(dimensions.height).toBe(200);
+    expect(dimensions.width).toBe(400);
   });
   test('It should respond with default image body', async () => {
-    const { res, body } = await request({
+    const { body } = await request({
       method: 'get',
       path: '/?body={"type": "image"}',
     });
-    // TODO: write test.
+    const dimensions = imageSize(body);
+    expect(dimensions.height).toBe(200);
+    expect(dimensions.width).toBe(200);
   });
 });
