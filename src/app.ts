@@ -1,45 +1,39 @@
-import http, { OutgoingHttpHeaders } from 'http'
-import { ParsedBody, ParsedCORSPreflight } from './interfaces'
+import http from 'http'
+import { Query } from './interfaces'
 import { createRectangle } from './image'
 
 const app = http.createServer((req, res) => {
   if (req.url === undefined) return res.end()
   const requestURL = new URL(req.url, `http://${req.headers.host}`)
-  const params = requestURL.searchParams
-  const reqQueryCorsPreflight = params.get('corsPreflight')
+  const query = requestURL.searchParams.get('query')
+  if (query === null) return res.end()
+  const queryObj: Query = JSON.parse(query)
   if (
-    reqQueryCorsPreflight !== null &&
+    queryObj.corsPreflight !== undefined &&
     req.method === 'OPTIONS' &&
     'access-control-request-method' in req.headers &&
     'origin' in req.headers
   ) {
-    const reqParsedCorsPreflight: ParsedCORSPreflight = JSON.parse(
-      reqQueryCorsPreflight
-    )
-    const statusCode = reqParsedCorsPreflight.status || 200
-    res.writeHead(statusCode, reqParsedCorsPreflight.headers)
+    const statusCode = queryObj.corsPreflight.status || 200
+    res.writeHead(statusCode, queryObj.corsPreflight.headers)
     return res.end()
   }
-  const reqQueryHeaders = params.get('headers')
-  if (reqQueryHeaders !== null) {
-    const reqParsedHeaders: OutgoingHttpHeaders = JSON.parse(reqQueryHeaders)
-    res.writeHead(200, reqParsedHeaders)
+  if (queryObj.headers !== undefined) {
+    res.writeHead(200, queryObj.headers)
   }
-  const reqQueryBody = params.get('body')
-  if (reqQueryBody === null) return res.end()
-  const reqParsedBody: ParsedBody = JSON.parse(reqQueryBody)
-  if (reqParsedBody.type === 'image') {
-    res.write(createRectangle(reqParsedBody.size))
-  } else {
+  if (queryObj.body === undefined) return res.end()
+  if (queryObj.body.type === 'image') {
+    return res.end(createRectangle(queryObj.body.size))
+  }
+  if (queryObj.body.type === 'text') {
     let resBody = ''
-    if (typeof reqParsedBody.data === 'object') {
-      resBody = JSON.stringify(reqParsedBody.data)
+    if (typeof queryObj.body.data === 'object') {
+      resBody = JSON.stringify(queryObj.body.data)
     } else {
-      resBody = reqParsedBody.data
+      resBody = queryObj.body.data
     }
-    res.write(resBody)
+    return res.end(resBody)
   }
-  res.end()
 })
 
 export default app

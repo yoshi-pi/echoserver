@@ -1,18 +1,22 @@
 import { OutgoingHttpHeaders } from 'http'
-interface ParsedTextBody {
+interface BodyText {
   type: 'text';
   data: string;
 }
-interface ParsedImageBody {
+interface BodyImage {
   type: 'image';
   size?: {
     width: number;
     height: number;
   };
 }
-export type ParsedBody = ParsedTextBody | ParsedImageBody;
-
-export interface ParsedCORSPreflight {
+ type Body = BodyText | BodyImage;
+ interface CORSPreflight {
   headers: OutgoingHttpHeaders;
   status?: number;
+}
+export interface Query {
+  headers?: OutgoingHttpHeaders;
+  body?: Body;
+  corsPreflight?: CORSPreflight
 }
