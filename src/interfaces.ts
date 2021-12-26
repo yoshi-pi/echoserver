@@ -1,5 +1,4 @@
-import { OutgoingHttpHeaders } from 'http';
-export type ParsedBody = ParsedTextBody | ParsedImageBody;
+import { OutgoingHttpHeaders } from 'http'
 interface ParsedTextBody {
   type: 'text';
   data: string;
@@ -11,6 +10,7 @@ interface ParsedImageBody {
     height: number;
   };
 }
+export type ParsedBody = ParsedTextBody | ParsedImageBody;
 
 export interface ParsedCORSPreflight {
   headers: OutgoingHttpHeaders;
