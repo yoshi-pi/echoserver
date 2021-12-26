@@ -51,4 +51,61 @@ describe('Test the root path', () => {
     expect(dimensions.height).toBe(200);
     expect(dimensions.width).toBe(200);
   });
+  test('It works with CORS preflight', async () => {
+    let path = `/?headers={"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}
+    &body={"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}
+    &corsPreflight={
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, HEAD, PUT, PATCH, POST, DELETE"
+      },
+      "status": 204
+    }`;
+    const { res: preflightRes } = await request({
+      method: 'options',
+      path,
+      headers: {
+        'Access-Control-Request-Method': 'GET',
+        Origin: 'http://test.test',
+      },
+    });
+    expect(preflightRes.statusCode).toBe(204);
+    expect(preflightRes.headers['access-control-allow-origin']).toBe('*');
+    expect(preflightRes.headers['access-control-allow-methods']).toBe(
+      'GET, HEAD, PUT, PATCH, POST, DELETE'
+    );
+    const { res } = await request({
+      method: 'GET',
+      path,
+    });
+    expect(res.statusCode).toBe(200);
+  });
+  test('It works with CORS preflight without status', async () => {
+    let path = `/?headers={"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"}
+    &body={"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}
+    &corsPreflight={
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, HEAD, PUT, PATCH, POST, DELETE"
+      }
+    }`;
+    const { res: preflightRes } = await request({
+      method: 'options',
+      path,
+      headers: {
+        'Access-Control-Request-Method': 'GET',
+        Origin: 'http://test.test',
+      },
+    });
+    expect(preflightRes.statusCode).toBe(200);
+    expect(preflightRes.headers['access-control-allow-origin']).toBe('*');
+    expect(preflightRes.headers['access-control-allow-methods']).toBe(
+      'GET, HEAD, PUT, PATCH, POST, DELETE'
+    );
+    const { res } = await request({
+      method: 'GET',
+      path,
+    });
+    expect(res.statusCode).toBe(200);
+  });
 });
