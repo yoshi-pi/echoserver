@@ -51,6 +51,22 @@ describe('Test the root path', () => {
     expect(dimensions.height).toBe(200)
     expect(dimensions.width).toBe(200)
   })
+  test('It should respond with the specified status code', async () => {
+    const { res, body } = await request({
+      method: 'get',
+      path: '/?query={ "status": 404, "headers": {"Content-Type": "application/json"}, "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}}'
+    })
+    expect(res.statusCode).toBe(404)
+    expect(res.headers['content-type']).toBe('application/json')
+    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}')
+  })
+  test('It should respond with the 200 status code by defualt', async () => {
+    const { res } = await request({
+      method: 'get',
+      path: '/?query={}'
+    })
+    expect(res.statusCode).toBe(200)
+  })
   test('It works with CORS preflight', async () => {
     const path = `/?query={
       "headers": {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"},

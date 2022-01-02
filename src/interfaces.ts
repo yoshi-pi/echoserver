@@ -16,6 +16,7 @@ interface BodyImage {
   status?: number;
 }
 export interface Query {
+  status?: number;
   headers?: OutgoingHttpHeaders;
   body?: Body;
   corsPreflight?: CORSPreflight
