@@ -68,6 +68,26 @@ describe('Test the root path', () => {
     })
     expect(res.statusCode).toBe(200)
   })
+  test('It should respond in the same way to any request methods', async () => {
+    let { res, body } = await request({
+      method: 'post',
+      path: '/?query={ "headers": {"Content-Type": "application/json"}, "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}}'
+    })
+    expect(res.headers['content-type']).toBe('application/json')
+    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}');
+    ({ res, body } = await request({
+      method: 'put',
+      path: '/?query={ "headers": {"Content-Type": "application/json"}, "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}}'
+    }))
+    expect(res.headers['content-type']).toBe('application/json')
+    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}');
+    ({ res, body } = await request({
+      method: 'delete',
+      path: '/?query={ "headers": {"Content-Type": "application/json"}, "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}}'
+    }))
+    expect(res.headers['content-type']).toBe('application/json')
+    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}')
+  })
   test('It should respond with the specified CORS preflight headers if the request method is OPTIONS and the request headers has the Access-Control-Request-Method and Origin headers', async () => {
     const path = `/?query={
       "headers": {"Access-Control-Allow-Origin": "*", "Content-Type": "application/json"},
