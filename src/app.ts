@@ -1,5 +1,5 @@
 import http from 'http'
-import { Query } from './interfaces'
+import { handleBadRequest, isObject, hasOptionalSize, getStatusCode, getHeaders } from './utils'
 import { createRectangle } from './image'
 
 const app = http.createServer((req, res) => {
@@ -8,7 +8,15 @@ const app = http.createServer((req, res) => {
   const requestURL = new URL(req.url, `http://${req.headers.host}`)
   const query = requestURL.searchParams.get('query')
   if (query === null) return res.end()
-  const queryObj: Query = JSON.parse(query)
+  let queryObj: unknown
+  try {
+    queryObj = JSON.parse(query)
+  } catch {
+    return handleBadRequest(res, 'the query value must be a valid JSON string')
+  }
+  if (!isObject(queryObj)) {
+    return handleBadRequest(res, 'the query value must be a JSON object')
+  }
 
   // CORS Preflight
   if (
@@ -17,35 +25,48 @@ const app = http.createServer((req, res) => {
     'access-control-request-method' in req.headers &&
     'origin' in req.headers
   ) {
-    const statusCode = queryObj.corsPreflight.status || 200
-    res.writeHead(statusCode, queryObj.corsPreflight.headers)
+    const corsPreflightObj = queryObj.corsPreflight
+    if (!isObject(corsPreflightObj)) {
+      return handleBadRequest(res, 'the value of corsPreflight must be an object')
+    }
+    const statusCode = getStatusCode(corsPreflightObj)
+    const headers = getHeaders(res, corsPreflightObj, true)
+    res.writeHead(statusCode, headers)
     return res.end()
   }
 
   // Status Code and Headers
-  const statusCode = queryObj.status || 200
-  if (queryObj.headers !== undefined) {
-    res.writeHead(statusCode, queryObj.headers)
-  } else {
-    res.statusCode = statusCode
-  }
+  const statusCode = getStatusCode(queryObj)
+  const headers = getHeaders(res, queryObj)
 
   // Body
-  if (queryObj.body === undefined) return res.end()
+  if (queryObj.body === undefined) {
+    res.writeHead(statusCode, headers)
+    return res.end()
+  }
+  if (!isObject(queryObj.body)) {
+    return handleBadRequest(res, 'the value of body must be an object')
+  }
   // image body
   if (queryObj.body.type === 'image') {
+    if (!hasOptionalSize(queryObj.body)) {
+      return handleBadRequest(res, 'the value of size must be an object that holds width and height as number')
+    }
+    res.writeHead(statusCode, headers)
     return res.end(createRectangle(queryObj.body.size))
   }
   // text body
   if (queryObj.body.type === 'text') {
-    let resBody = ''
+    let resBody: unknown
     if (typeof queryObj.body.data === 'object') {
       resBody = JSON.stringify(queryObj.body.data)
     } else {
       resBody = queryObj.body.data
     }
+    res.writeHead(statusCode, headers)
     return res.end(resBody)
   }
+  return handleBadRequest(res, 'the value of type must be either text or image')
 })
 
 export default app

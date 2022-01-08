@@ -1,5 +1,5 @@
 import { createCanvas } from 'canvas'
-interface Rect {
+export interface Rect {
   width: number;
   height: number;
 }
