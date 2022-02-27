@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "start:backend": "nodemon apps/backend/src/server.ts",
-    "start:frontend": "tsc --watch --project apps/frontend/tsconfig.json",
+    "start:frontend": "concurrently \"tsc --watch --project apps/frontend/tsconfig.json\" \"http-server apps/frontend/public\"",
     "lint": "eslint . --ignore-path .gitignore"
   },
   "author": "",
@@ -33,6 +33,8 @@
     "ts-node": "^10.4.0"
   },
   "dependencies": {
-    "canvas": "^2.8.0"
+    "canvas": "^2.8.0",
+    "concurrently": "^7.0.0",
+    "http-server": "^14.1.0"
   }
 }
