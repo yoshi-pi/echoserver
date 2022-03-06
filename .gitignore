@@ -1,3 +1,5 @@
+apps/frontend/public/app.js
+
 # Logs
 logs
 *.log
