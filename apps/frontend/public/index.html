@@ -11,8 +11,8 @@
   <body>
     <header>
       <nav>
-        <div class="logo cursor-pointer">echoserver</div>
-        <div class="cursor-pointer">GitHub</div>
+        <a href="/" class="logo">echoserver</a>
+        <a href="https://github.com/" class="github">GitHub</a>
       </nav>
     </header>
     <main>
@@ -29,197 +29,203 @@
       <section class="generator-container">
         <div class="generator">
           <h2 class="text-3xl">Response you want</h2>
-          <section class="mt-lg">
-            <h3 class="text-2xl">Headers</h3>
-            <div class="headers-container">
-              <div class="headers">
-                <div class="header relative">
-                  <div class="relative">
-                    <input
-                      class="input-text"
-                      type="text"
-                      id="key1"
-                      placeholder="content-type"
-                    />
-                    <label for="key1">key</label>
-                  </div>
-                  <span class="separator">:</span>
-                  <div class="relative">
-                    <input
-                      class="input-text"
-                      type="text"
-                      id="value1"
-                      placeholder="application/json"
-                    />
-                    <label for="value1">value</label>
-                  </div>
-                  <button class="remove-button" hidden>
-                    <svg
-                      class="fill-opacity-1"
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="24px"
-                      viewBox="0 0 24 24"
-                      width="24px"
-                      fill="#e74c3c"
-                      fill-opacity="0.6"
-                    >
-                      <path d="M0 0h24v24H0z" fill="none" />
-                      <path
-                        d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+          <div id="basic-container">
+            <section class="mt-lg">
+              <h3 class="text-2xl">Headers</h3>
+              <div class="headers-container">
+                <div class="headers">
+                  <div class="header relative">
+                    <div class="relative">
+                      <input
+                        class="input-text"
+                        type="text"
+                        id="key1"
+                        placeholder="content-type"
                       />
-                    </svg>
-                  </button>
+                      <label for="key1">key</label>
+                    </div>
+                    <span class="separator">:</span>
+                    <div class="relative">
+                      <input
+                        class="input-text"
+                        type="text"
+                        id="value1"
+                        placeholder="application/json"
+                      />
+                      <label for="value1">value</label>
+                    </div>
+                    <button class="remove-button">
+                      <svg
+                        class="fill-opacity-1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 0 24 24"
+                        width="24px"
+                        fill="#e74c3c"
+                        fill-opacity="0.6"
+                      >
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path
+                          d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <button class="add-button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 0 24 24"
+                    width="24px"
+                    fill="darkblue"
+                    fill-opacity="0.6"
+                  >
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </section>
+            <section class="body-container">
+              <h3 class="text-2xl">Body</h3>
+              <div class="body">
+                <div class="relative">
+                  <select>
+                    <option>Text</option>
+                    <option>Image</option>
+                  </select>
+                  <label for="data-type">data type</label>
+                </div>
+                <div class="vertical-line"></div>
+                <div class="body-data">
+                  <div class="text-data-container h-full">
+                    <div class="relative h-full">
+                      <textarea
+                        id="text"
+                        class="h-full"
+                        cols="40"
+                        placeholder='{"id": 1, "name": "echo-server"}'
+                      ></textarea>
+                      <label for="text">text data</label>
+                    </div>
+                  </div>
+                  <div class="image-size-container" hidden>
+                    <div class="image-size">
+                      <div class="relative">
+                        <input
+                          class="w-100 appearance-none"
+                          type="number"
+                          id="width"
+                          value="200"
+                        />
+                        <label for="width">width</label>
+                      </div>
+                      <div class="relative ml-md">
+                        <input
+                          class="w-100"
+                          type="number"
+                          id="height"
+                          value="200"
+                        />
+                        <label for="height">height</label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <button class="add-button">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  height="24px"
-                  viewBox="0 0 24 24"
-                  width="24px"
-                  fill="darkblue"
-                  fill-opacity="0.6"
-                >
-                  <path d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-                  />
-                </svg>
-              </button>
-            </div>
-          </section>
-          <section class="body-container">
-            <h3 class="text-2xl">Body</h3>
-            <div class="body">
-              <div class="relative">
-                <select>
-                  <option>Text</option>
-                  <option>Image</option>
-                </select>
-                <label for="data-type">data type</label>
+            </section>
+            <section class="mt-sm">
+              <h3 class="text-2xl">Status Code</h3>
+              <div class="relative mt-md">
+                <input class="w-100" type="number" id="status" value="200" />
+                <label for="status">status</label>
               </div>
-              <div class="vertical-line"></div>
-              <div class="relative">
-                <textarea
-                  id="text"
-                  cols="40"
-                  rows="10"
-                  placeholder='{"id": 1, "name": "echo-server"}'
-                ></textarea>
-                <label for="text">text data</label>
+            </section>
+          </div>
+          <button class="cors-button mt-xl">
+            <span id="cors-button-text-show">
+              + Get a different response for a CORS Preflight Request
+            </span>
+            <span id="cors-button-text-remove" hidden>
+              - Remove a different response for a CORS Preflight Request
+            </span>
+          </button>
+          <div id="cors-container" hidden>
+            <section class="mt-md">
+              <h3 class="text-xl">CORS Preflight Headers</h3>
+              <div class="headers-container">
+                <div class="headers">
+                  <div class="header relative">
+                    <div class="relative">
+                      <input
+                        class="input-text"
+                        type="text"
+                        id="key2"
+                        placeholder="content-type"
+                      />
+                      <label for="key2">key</label>
+                    </div>
+                    <span class="separator">:</span>
+                    <div class="relative">
+                      <input
+                        class="input-text"
+                        type="text"
+                        id="value2"
+                        placeholder="application/json"
+                      />
+                      <label for="value2">value</label>
+                    </div>
+                    <button class="remove-button">
+                      <svg
+                        class="fill-opacity-1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        height="24px"
+                        viewBox="0 0 24 24"
+                        width="24px"
+                        fill="#e74c3c"
+                        fill-opacity="0.6"
+                      >
+                        <path d="M0 0h24v24H0z" fill="none" />
+                        <path
+                          d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <button class="add-button">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 0 24 24"
+                    width="24px"
+                    fill="darkblue"
+                    fill-opacity="0.6"
+                  >
+                    <path d="M0 0h24v24H0z" fill="none" />
+                    <path
+                      d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                    />
+                  </svg>
+                </button>
               </div>
-              <!-- <div class="image-size-container">
-            <div class="relative">
-              <input class="w-100 appearance-none" type="number" id="width" value="200">
-              <label for="width">width</label>
-            </div>
-            <div class="relative ml-md">
-              <input class="w-100" type="number" id="height" value="200">
-              <label for="height">height</label>
-            </div>
-          </div> -->
-            </div>
-          </section>
-          <section class="mt-sm">
-            <h3 class="text-2xl">Status Code</h3>
-            <div class="relative mt-md">
-              <input class="w-100" type="number" id="status" value="200" />
-              <label for="status">status</label>
-            </div>
-          </section>
-          <button class="cors-button mt-lg">
-            + Get(- Remove) a different response for a CORS Preflight Request
-          </button>
-          <!-- <section class="mt-lg">
-          <h3 class="text-2xl">CORS Preflight Headers</h3>
-          <div class="header">
-            <div class="relative">
-              <input
-                class="input-text"
-                type="text"
-                id="key1"
-                placeholder="content-type"
-              />
-              <label for="key1">key</label>
-            </div>
-            <span class="separator">:</span>
-            <div class="relative">
-              <input
-                class="input-text"
-                type="text"
-                id="value1"
-                placeholder="application/json"
-              />
-              <label for="value1">value</label>
-            </div>
-            <button class="remove-button">
-              <svg
-                class="fill-opacity-1"
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 0 24 24"
-                width="24px"
-                fill="#e74c3c"
-                fill-opacity="0.6"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+            </section>
+            <section class="mt-md">
+              <h3 class="text-xl">CORS Preflight Status Code</h3>
+              <div class="relative mt-md">
+                <input
+                  class="w-100"
+                  type="number"
+                  id="cors-status"
+                  value="200"
                 />
-              </svg>
-            </button>
+                <label for="cors-status">status</label>
+              </div>
+            </section>
           </div>
-          <div class="header">
-            <div class="relative">
-              <input class="input-text" type="text" id="key2" />
-              <label for="key2">key</label>
-            </div>
-            <span class="separator">:</span>
-            <div class="relative">
-              <input class="input-text" type="text" id="value2" />
-              <label for="value2">value</label>
-            </div>
-            <button class="remove-button">
-              <svg
-                class="fill-opacity-1"
-                xmlns="http://www.w3.org/2000/svg"
-                height="24px"
-                viewBox="0 0 24 24"
-                width="24px"
-                fill="#e74c3c"
-                fill-opacity="0.6"
-              >
-                <path d="M0 0h24v24H0z" fill="none" />
-                <path
-                  d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-                />
-              </svg>
-            </button>
-          </div>
-          <button class="add-button">
-            <svg
-              class="svg-icon"
-              xmlns="http://www.w3.org/2000/svg"
-              height="24px"
-              viewBox="0 0 24 24"
-              width="24px"
-              fill="darkblue"
-              fill-opacity="0.6"
-            >
-              <path d="M0 0h24v24H0z" fill="none" />
-              <path
-                d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-              />
-            </svg>
-          </button>
-        </section>
-        <section class="mt-md">
-          <h3 class="text-2xl">CORS Preflight Status Code</h3>
-          <div class="relative mt-md">
-            <input class="w-100" type="number" id="status" value="200" />
-            <label for="status">status</label>
-          </div>
-        </section> -->
           <section class="result-container">
             <div class="result-header">
               <h2 class="text-primary text-3xl">
