@@ -1,11 +1,6 @@
 import http from 'http'
 import { Rect } from './image'
-const hasOnlyStringOrNumberValue = (obj: { [key: string]: unknown }): obj is { [key: string]: string | number } => {
-  return Object.keys(obj).every((value) => {
-    if ((typeof obj[value] === 'number') || (typeof obj[value] === 'string')) return true
-    return false
-  })
-}
+
 export const isObject = (value: unknown): value is { [key: string]: unknown } => {
   return typeof value === 'object' && value !== null
 }
@@ -30,12 +25,22 @@ export const getStatusCode = (obj: { [key: string]: unknown }) => {
 }
 export const getHeaders = (res: http.ServerResponse, obj: { [key: string]: unknown }, isCorsPreflight: boolean = false) => {
   if (obj.headers !== undefined) {
-    if (!isObject(obj.headers)) {
-      return handleBadRequest(res, `the value of headers${isCorsPreflight ? ' of corsPreflight ' : ' '}must be an object`)
+    if (!Array.isArray(obj.headers)) {
+      throw new Error(`the value of headers${isCorsPreflight ? ' of corsPreflight ' : ' '}must be an array`)
     }
-    if (!hasOnlyStringOrNumberValue(obj.headers)) {
-      return handleBadRequest(res, `each header value${isCorsPreflight ? ' of corsPreflight ' : ' '}must be string or number`)
-    }
+    obj.headers.forEach(header => {
+      if (!Array.isArray(header)) {
+        throw new Error(`the format of each header${isCorsPreflight ? ' of corsPreflight ' : ' '}must be an array`)
+      }
+      if (header.length < 2) {
+        throw new Error(`each header array length${isCorsPreflight ? ' of corsPreflight ' : ' '}must be at least 2`)
+      }
+      header.forEach(item => {
+        if (typeof item !== 'string') {
+          throw new Error(`elements of header array${isCorsPreflight ? ' of corsPreflight ' : ' '}must be string`)
+        }
+      })
+    })
   }
-  return obj.headers
+  return obj.headers as string[][] | undefined
 }

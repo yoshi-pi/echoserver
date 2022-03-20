@@ -30,14 +30,23 @@ const app = http.createServer((req, res) => {
       return handleBadRequest(res, 'the value of corsPreflight must be an object')
     }
     const statusCode = getStatusCode(corsPreflightObj)
-    const headers = getHeaders(res, corsPreflightObj, true)
-    res.writeHead(statusCode, headers)
-    return res.end()
+    try {
+      const headers = getHeaders(res, corsPreflightObj, true)
+      res.writeHead(statusCode, headers)
+      return res.end()
+    } catch (error) {
+      if (error instanceof Error) return handleBadRequest(res, error.message)
+    }
   }
 
   // Status Code and Headers
   const statusCode = getStatusCode(queryObj)
-  const headers = getHeaders(res, queryObj)
+  let headers: string[][] | undefined
+  try {
+    headers = getHeaders(res, queryObj)
+  } catch (error) {
+    if (error instanceof Error) return handleBadRequest(res, error.message)
+  }
 
   // Body
   if (queryObj.body === undefined) {
