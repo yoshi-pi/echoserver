@@ -29,9 +29,6 @@ h3 {
 .w-100 {
   width: 100px;
 }
-.cursor-pointer {
-  cursor: pointer;
-}
 .text-main {
   color: var(--main-text-color);
 }

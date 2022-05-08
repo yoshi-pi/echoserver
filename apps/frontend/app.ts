@@ -150,3 +150,9 @@ CORSButton?.addEventListener('click', () => {
   CORSContainer.hidden = !CORSContainer.hidden
   syncURL()
 })
+
+const copyButton = document.querySelector('#copy-button')
+copyButton?.addEventListener('click', () => {
+  const resultURLText = document.querySelector('.url a')?.textContent as string
+  navigator.clipboard.writeText(resultURLText)
+})
