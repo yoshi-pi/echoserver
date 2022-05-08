@@ -1,5 +1,5 @@
 interface ResultURL {
-  headers: {key: string; value: string;}[];
+  headers: [string, string][];
   body: {
     type: 'text';
     data: string;
@@ -12,7 +12,7 @@ interface ResultURL {
   };
   status: number;
   corsPreflight: {
-    headers: {key: string; value: string;}[];
+    headers: [string, string][];
     status: number;
   }
 }
@@ -30,13 +30,13 @@ const URLElement = document.querySelector('.url a') as HTMLAnchorElement
 const syncURL = () => {
   // sync header
   const syncHeader = ({ isCORS } = { isCORS: false }) => {
-    const headers: {key: string; value: string;}[] = []
+    const headers: [string, string][] = []
     const headerElements = document.querySelectorAll(`${isCORS ? '#cors-container' : '#basic-container'} .header`)
     headerElements.forEach(headerElement => {
       const inputElements = headerElement.querySelectorAll('input')
       const key = inputElements[0].value
       const value = inputElements[1].value
-      headers.push({ key, value })
+      headers.push([key, value])
     })
     if (isCORS) {
       resultURLObj.corsPreflight.headers = headers
