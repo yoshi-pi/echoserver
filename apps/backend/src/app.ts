@@ -31,7 +31,7 @@ const app = http.createServer((req, res) => {
     }
     const statusCode = getStatusCode(corsPreflightObj)
     try {
-      const headers = getHeaders(res, corsPreflightObj, true)
+      const headers = getHeaders(corsPreflightObj, true)
       res.writeHead(statusCode, headers)
       return res.end()
     } catch (error) {
@@ -43,7 +43,7 @@ const app = http.createServer((req, res) => {
   const statusCode = getStatusCode(queryObj)
   let headers: string[][] | undefined
   try {
-    headers = getHeaders(res, queryObj)
+    headers = getHeaders(queryObj)
   } catch (error) {
     if (error instanceof Error) return handleBadRequest(res, error.message)
   }

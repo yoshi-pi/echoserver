@@ -23,7 +23,7 @@ export const getStatusCode = (obj: { [key: string]: unknown }) => {
   }
   return statusCode
 }
-export const getHeaders = (res: http.ServerResponse, obj: { [key: string]: unknown }, isCorsPreflight: boolean = false) => {
+export const getHeaders = (obj: { [key: string]: unknown }, isCorsPreflight: boolean = false) => {
   if (obj.headers !== undefined) {
     if (!Array.isArray(obj.headers)) {
       throw new Error(`the value of headers${isCorsPreflight ? ' of corsPreflight ' : ' '}must be an array`)
