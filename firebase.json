@@ -1,0 +1,21 @@
+{
+  "hosting": {
+    "public": "apps/frontend/public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [ {
+      "source": "/server",
+      "run": {
+        "serviceId": "myapp",
+        "region": "us-central1"
+      }
+    },
+    {
+    "source": "**",
+    "destination": "/"
+    }]
+  }
+}
