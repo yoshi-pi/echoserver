@@ -81,7 +81,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   height: 64px;
-  width: 800px;
+  width: 888px;
 }
 .logo {
   cursor: pointer;
@@ -104,7 +104,7 @@ main {
   box-shadow: 0 0 1px rgb(0 0 0 / 25%);
 }
 .tagline {
-  width: 800px;
+  width: 888px;
   margin: 0 auto;
 }
 .generator-container {
@@ -112,7 +112,7 @@ main {
   padding: 80px 0;
 }
 .generator {
-  width: 800px;
+  width: 888px;
   margin: 0 auto;
 }
 .headers-container {
