@@ -12,10 +12,6 @@
         "serviceId": "myapp",
         "region": "us-central1"
       }
-    },
-    {
-    "source": "**",
-    "destination": "/"
     }]
   }
 }
