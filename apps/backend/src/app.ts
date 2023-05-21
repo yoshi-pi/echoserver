@@ -33,7 +33,7 @@ const app = http.createServer(async (req, res) => {
   const requestURL = new URL(req.url, `http://${req.headers.host}`)
   if (requestURL.pathname === '/server') {
     const query = requestURL.searchParams.get('query')
-    if (query === null) return res.end()
+    if (query === null) return handleBadRequest(res, 'There is no query parameter')
     let queryObj: unknown
     try {
       queryObj = JSON.parse(query)
