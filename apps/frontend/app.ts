@@ -85,6 +85,7 @@ const syncURL = () => {
     delete resultURLObjCopy.corsPreflight
   }
   URLElement.textContent = `${location}server?query=${JSON.stringify(resultURLObjCopy)}`
+  URLElement.href = `${location}server?query=${JSON.stringify(resultURLObjCopy)}`
 }
 syncURL()
 window.addEventListener('input', () => {
