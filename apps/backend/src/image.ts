@@ -8,7 +8,7 @@ export const createRectangle = (
 ) => {
   const canvas = createCanvas(width, height)
   const ctx = canvas.getContext('2d')
-  ctx.fillStyle = '#00b894'
+  ctx.fillStyle = 'gray'
   ctx.fillRect(0, 0, width, height)
   return canvas.toBuffer()
 }
