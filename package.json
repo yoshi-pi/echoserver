@@ -1,5 +1,5 @@
 {
-  "name": "echo-server",
+  "name": "echoserver",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

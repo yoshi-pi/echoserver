@@ -21,17 +21,17 @@ describe('Test the root path', () => {
   test('It should respond with the specified headers and body at the same time', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query={ "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}}'
+      path: '/server?query={ "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}'
     })
     expect(res.headers['content-type']).toBe('application/json')
-    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}')
+    expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}')
   })
   test('It should respond with a body that contains the trimmed JSON data', async () => {
     const { body } = await request({
       method: 'get',
-      path: '/server?query={ "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}}'
+      path: '/server?query={ "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}'
     })
-    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}')
+    expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}')
   })
   test('It should respond with a body that contains an image with the specified height and width', async () => {
     const { body } = await request({
@@ -55,11 +55,11 @@ describe('Test the root path', () => {
   test('It should respond with the specified status code', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query={ "status": 404, "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}}'
+      path: '/server?query={ "status": 404, "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}'
     })
     expect(res.statusCode).toBe(404)
     expect(res.headers['content-type']).toBe('application/json')
-    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}')
+    expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}')
   })
   test('It should respond with a status code of 200 by default', async () => {
     const { res } = await request({
@@ -71,26 +71,26 @@ describe('Test the root path', () => {
   test('It should respond in the same way to any request methods', async () => {
     let { res, body } = await request({
       method: 'post',
-      path: '/server?query={ "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}}'
+      path: '/server?query={ "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}'
     })
     expect(res.headers['content-type']).toBe('application/json')
-    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}');
+    expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}');
     ({ res, body } = await request({
       method: 'put',
-      path: '/server?query={ "headers": [["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}}'
+      path: '/server?query={ "headers": [["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}'
     }))
     expect(res.headers['content-type']).toBe('application/json')
-    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}');
+    expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}');
     ({ res, body } = await request({
       method: 'delete',
-      path: '/server?query={ "headers": [["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}}}'
+      path: '/server?query={ "headers": [["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}'
     }))
     expect(res.headers['content-type']).toBe('application/json')
-    expect(body.toString()).toBe('{"name":"echo-server","author":"yoshipi"}')
+    expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}')
   })
   test('It should respond with the specified CORS preflight headers if the request method is OPTIONS and the request headers have the Access-Control-Request-Method and Origin headers', async () => {
     const path = `/server?query={
-      "headers": [["Access-Control-Allow-Origin", "*"], ["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}},
+      "headers": [["Access-Control-Allow-Origin", "*"], ["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}},
       "corsPreflight": {
         "headers": [["Access-Control-Allow-Origin", "*"], ["Access-Control-Allow-Methods", "GET, HEAD, PUT, PATCH, POST, DELETE"]], "status": 204
       }
@@ -117,7 +117,7 @@ describe('Test the root path', () => {
   test('It should respond with the specified CORS preflight headers and a status code of 200 by default if the request method is OPTIONS and the request headers have the Access-Control-Request-Method and Origin headers', async () => {
     const path = `/server?query={
       "headers": [["Access-Control-Allow-Origin", "*"], ["Content-Type", "application/json"]],
-      "body": {"type": "text", "data": {"name": "echo-server", "author": "yoshipi"}},
+      "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}},
       "corsPreflight": {
         "headers": [["Access-Control-Allow-Origin", "*"], ["Access-Control-Allow-Methods", "GET, HEAD, PUT, PATCH, POST, DELETE"]]
       }
