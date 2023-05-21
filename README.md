@@ -17,4 +17,4 @@ If you are a frontend developer and need a temporary server for prototyping and 
 
 ## Try it 👍
 
-Visit https://echoserver.dev
+Visit <https://echoserver.dev>
