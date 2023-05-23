@@ -17,7 +17,6 @@
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "@types/jest": "^27.0.2",
-    "@types/supertest": "^2.0.11",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "babel-jest": "^27.3.1",
     "concurrently": "^7.2.0",
@@ -32,7 +31,6 @@
     "jest": "^27.3.1",
     "nodemon": "^2.0.14",
     "prettier": "^2.8.8",
-    "supertest": "^6.1.6",
     "ts-node": "^10.4.0",
     "typescript": "^5.0.4"
   },
