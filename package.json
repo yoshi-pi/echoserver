@@ -8,7 +8,7 @@
     "start": "tsc --project apps/frontend/tsconfig.json && tsc --project apps/backend/tsconfig.json && node apps/backend/server/server.js",
     "dev": "concurrently \"tsc --watch --project apps/frontend/tsconfig.json\" \"nodemon apps/backend/src/server.ts\"",
     "lint": "eslint . --fix --ignore-path .gitignore",
-    "format": "prettier --write ."
+    "format": "prettier --write . --ignore-path .gitignore"
   },
   "author": "",
   "license": "ISC",
