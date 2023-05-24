@@ -2,7 +2,7 @@ import http from 'http';
 
 interface RequestConfig {
   method: string;
-  path: string;
+  query: string;
   headers?: http.OutgoingHttpHeaders;
 }
 interface Response {
@@ -11,14 +11,14 @@ interface Response {
 }
 export const request = async ({
   method,
-  path,
+  query,
   headers,
 }: RequestConfig): Promise<Response> =>
   await new Promise<Response>((resolve) => {
     const options = {
       hostname: 'localhost',
       port: 5678,
-      path: encodeURI(path),
+      path: `/server?query=${encodeURIComponent(query)}`,
       method,
       headers,
     };

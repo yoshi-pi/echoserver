@@ -5,7 +5,7 @@ describe('Test the root path', () => {
   test('It should respond with the specified headers', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query={ "headers": [["content-type", "application/json"], ["a", "a"]]}',
+      query: '{ "headers": [["content-type", "application/json"], ["a", "a"]]}',
     });
     expect(res.headers['content-type']).toBe('application/json');
     expect(res.headers.a).toBe('a');
@@ -14,14 +14,15 @@ describe('Test the root path', () => {
   test('It should respond with a body that contains the specified text data', async () => {
     const { body } = await request({
       method: 'get',
-      path: '/server?query={ "body": {"type": "text", "data": "hello"}}',
+      query: '{ "body": {"type": "text", "data": "hello"}}',
     });
     expect(body.toString()).toBe('hello');
   });
   test('It should respond with the specified headers and body at the same time', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query={ "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
+      query:
+        '{ "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
     });
     expect(res.headers['content-type']).toBe('application/json');
     expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}');
@@ -29,14 +30,16 @@ describe('Test the root path', () => {
   test('It should respond with a body that contains the trimmed JSON data', async () => {
     const { body } = await request({
       method: 'get',
-      path: '/server?query={ "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
+      query:
+        '{ "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
     });
     expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}');
   });
   test('It should respond with a body that contains an image with the specified height and width', async () => {
     const { body } = await request({
       method: 'get',
-      path: '/server?query={ "body": {"type": "image", "size": {"width": 400, "height": 200}}}',
+      query:
+        '{ "body": {"type": "image", "size": {"width": 400, "height": 200}}}',
     });
     const dimensions = imageSize(body);
     expect(dimensions.height).toBe(200);
@@ -46,7 +49,7 @@ describe('Test the root path', () => {
   test('It should respond with a body that contains a default image of 200 in height and width', async () => {
     const { body } = await request({
       method: 'get',
-      path: '/server?query={ "body": {"type": "image"}}',
+      query: '{ "body": {"type": "image"}}',
     });
     const dimensions = imageSize(body);
     expect(dimensions.height).toBe(200);
@@ -55,7 +58,8 @@ describe('Test the root path', () => {
   test('It should respond with the specified status code', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query={ "status": 404, "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
+      query:
+        '{ "status": 404, "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
     });
     expect(res.statusCode).toBe(404);
     expect(res.headers['content-type']).toBe('application/json');
@@ -64,32 +68,35 @@ describe('Test the root path', () => {
   test('It should respond with a status code of 200 by default', async () => {
     const { res } = await request({
       method: 'get',
-      path: '/server?query={}',
+      query: '{}',
     });
     expect(res.statusCode).toBe(200);
   });
   test('It should respond in the same way to any request methods', async () => {
     let { res, body } = await request({
       method: 'post',
-      path: '/server?query={ "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
+      query:
+        '{ "headers": [["content-type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
     });
     expect(res.headers['content-type']).toBe('application/json');
     expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}');
     ({ res, body } = await request({
       method: 'put',
-      path: '/server?query={ "headers": [["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
+      query:
+        '{ "headers": [["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
     }));
     expect(res.headers['content-type']).toBe('application/json');
     expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}');
     ({ res, body } = await request({
       method: 'delete',
-      path: '/server?query={ "headers": [["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
+      query:
+        '{ "headers": [["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}}}',
     }));
     expect(res.headers['content-type']).toBe('application/json');
     expect(body.toString()).toBe('{"name":"echoserver","author":"yoshipi"}');
   });
   test('It should respond with the specified CORS preflight headers if the request method is OPTIONS and the request headers have the Access-Control-Request-Method and Origin headers', async () => {
-    const path = `/server?query={
+    const query = `{
       "headers": [["Access-Control-Allow-Origin", "*"], ["Content-Type", "application/json"]], "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}},
       "corsPreflight": {
         "headers": [["Access-Control-Allow-Origin", "*"], ["Access-Control-Allow-Methods", "GET, HEAD, PUT, PATCH, POST, DELETE"]], "status": 204
@@ -97,7 +104,7 @@ describe('Test the root path', () => {
     }`;
     const { res: preflightRes } = await request({
       method: 'options',
-      path,
+      query,
       headers: {
         'Access-Control-Request-Method': 'GET',
         Origin: 'http://test.test',
@@ -110,12 +117,12 @@ describe('Test the root path', () => {
     );
     const { res } = await request({
       method: 'GET',
-      path,
+      query,
     });
     expect(res.statusCode).toBe(200);
   });
   test('It should respond with the specified CORS preflight headers and a status code of 200 by default if the request method is OPTIONS and the request headers have the Access-Control-Request-Method and Origin headers', async () => {
-    const path = `/server?query={
+    const query = `{
       "headers": [["Access-Control-Allow-Origin", "*"], ["Content-Type", "application/json"]],
       "body": {"type": "text", "data": {"name": "echoserver", "author": "yoshipi"}},
       "corsPreflight": {
@@ -124,7 +131,7 @@ describe('Test the root path', () => {
     }`;
     const { res: preflightRes } = await request({
       method: 'options',
-      path,
+      query,
       headers: {
         'Access-Control-Request-Method': 'GET',
         Origin: 'http://test.test',
@@ -137,14 +144,14 @@ describe('Test the root path', () => {
     );
     const { res } = await request({
       method: 'GET',
-      path,
+      query,
     });
     expect(res.statusCode).toBe(200);
   });
   test('It should respond with a status code of 400 when the query string is an invalid JSON string', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query=invalidJSON',
+      query: 'invalidJSON',
     });
     expect(res.statusCode).toBe(400);
     expect(body.toString()).toBe('the query value must be a valid JSON string');
@@ -152,16 +159,16 @@ describe('Test the root path', () => {
   test('It should respond with a status code of 400 when the query string is not a JSON object', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query="not object"',
+      query: '"not object"',
     });
     expect(res.statusCode).toBe(400);
     expect(body.toString()).toBe('the query value must be a JSON object');
   });
   test('It should respond with a status code of 400 when the the value of corsPreflight is not an object, the request method is OPTIONS and the request headers have the Access-Control-Request-Method and Origin headers', async () => {
-    const path = '/server?query={"corsPreflight": "not object"}';
+    const query = '{"corsPreflight": "not object"}';
     const { res, body } = await request({
       method: 'options',
-      path,
+      query,
       headers: {
         'Access-Control-Request-Method': 'GET',
         Origin: 'http://test.test',
@@ -173,14 +180,14 @@ describe('Test the root path', () => {
     );
   });
   test('It should respond with a status code of 400 when the value of headers of corsPreflight is not an array, the request method is OPTIONS and the request headers have the Access-Control-Request-Method and Origin headers', async () => {
-    const path = `/server?query={
+    const query = `{
       "corsPreflight": {
         "headers": "not array"
       }
     }`;
     const { res, body } = await request({
       method: 'options',
-      path,
+      query,
       headers: {
         'Access-Control-Request-Method': 'GET',
         Origin: 'http://test.test',
@@ -192,14 +199,14 @@ describe('Test the root path', () => {
     );
   });
   test('It should respond with a status code of 400 when the format of each header of corsPreflight is not an array, the request method is OPTIONS and the request headers have the Access-Control-Request-Method and Origin headers', async () => {
-    const path = `/server?query={
+    const query = `{
       "corsPreflight": {
         "headers": ["not array"]
       }
     }`;
     const { res, body } = await request({
       method: 'options',
-      path,
+      query,
       headers: {
         'Access-Control-Request-Method': 'GET',
         Origin: 'http://test.test',
@@ -211,14 +218,14 @@ describe('Test the root path', () => {
     );
   });
   test('It should respond with a status code of 400 when each header array length of corsPreflight is less than 2, the request method is OPTIONS and the request headers have the Access-Control-Request-Method and Origin headers', async () => {
-    const path = `/server?query={
+    const query = `{
       "corsPreflight": {
         "headers": [["one"]]
       }
     }`;
     const { res, body } = await request({
       method: 'options',
-      path,
+      query,
       headers: {
         'Access-Control-Request-Method': 'GET',
         Origin: 'http://test.test',
@@ -230,14 +237,14 @@ describe('Test the root path', () => {
     );
   });
   test('It should respond with a status code of 400 when elements of header array of corsPreflight are not string, the request method is OPTIONS and the request headers have the Access-Control-Request-Method and Origin headers', async () => {
-    const path = `/server?query={
+    const query = `{
       "corsPreflight": {
         "headers": [["Access-Control-Allow-Origin", 123]]
       }
     }`;
     const { res, body } = await request({
       method: 'options',
-      path,
+      query,
       headers: {
         'Access-Control-Request-Method': 'GET',
         Origin: 'http://test.test',
@@ -251,7 +258,7 @@ describe('Test the root path', () => {
   test('It should respond with a status code of 400 when the value of headers is not an array', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query={ "headers": "not array"}',
+      query: '{ "headers": "not array"}',
     });
     expect(res.statusCode).toBe(400);
     expect(body.toString()).toBe('the value of headers must be an array');
@@ -259,7 +266,7 @@ describe('Test the root path', () => {
   test('It should respond with a status code of 400 when the format of each header is not an array', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query={"headers": ["not array"]}',
+      query: '{"headers": ["not array"]}',
     });
     expect(res.statusCode).toBe(400);
     expect(body.toString()).toBe('the format of each header must be an array');
@@ -267,7 +274,7 @@ describe('Test the root path', () => {
   test('It should respond with a status code of 400 when each header array length is less than 2', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: `/server?query={
+      query: `{
         "headers": [["one"]]
       }`,
     });
@@ -277,7 +284,7 @@ describe('Test the root path', () => {
   test('It should respond with a status code of 400 when elements of header array are not string', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: `/server?query={
+      query: `{
         "headers": [["content-type", 123]]
       }`,
     });
@@ -287,7 +294,7 @@ describe('Test the root path', () => {
   test('It should respond with a status code of 400 when the value of body is not an object', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query={ "body": "not object"}',
+      query: '{ "body": "not object"}',
     });
     expect(res.statusCode).toBe(400);
     expect(body.toString()).toBe('the value of body must be an object');
@@ -295,7 +302,8 @@ describe('Test the root path', () => {
   test('It should respond with a status code of 400 when the value of size is not an object that holds width and height as number', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query={ "body": {"type": "image", "size": "not an object that holds width and height as number"}}',
+      query:
+        '{ "body": {"type": "image", "size": "not an object that holds width and height as number"}}',
     });
     expect(res.statusCode).toBe(400);
     expect(body.toString()).toBe(
@@ -305,7 +313,7 @@ describe('Test the root path', () => {
   test('It should respond with a status code of 400 when the value of type is neither text nor image', async () => {
     const { res, body } = await request({
       method: 'get',
-      path: '/server?query={ "body": {"type": "neither text nor image", "data": "hello"}}',
+      query: '{ "body": {"type": "neither text nor image", "data": "hello"}}',
     });
     expect(res.statusCode).toBe(400);
     expect(body.toString()).toBe(
