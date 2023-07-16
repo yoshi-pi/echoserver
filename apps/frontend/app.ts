@@ -197,7 +197,16 @@ CORSButton?.addEventListener('click', () => {
 });
 
 const copyButton = document.querySelector('#copy-button');
+const tooltipText = document.querySelector('.tooltip-text');
 copyButton?.addEventListener('click', () => {
   const resultURLText = document.querySelector('.url a')?.textContent as string;
   void navigator.clipboard.writeText(resultURLText);
+  if (tooltipText !== null) {
+    tooltipText.textContent = 'Copied!';
+  }
+});
+tooltipText?.addEventListener('transitionend', () => {
+  if (tooltipText !== null) {
+    tooltipText.textContent = 'Copy';
+  }
 });
