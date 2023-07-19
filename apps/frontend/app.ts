@@ -198,15 +198,22 @@ CORSButton?.addEventListener('click', () => {
 
 const copyButton = document.querySelector('#copy-button');
 const tooltipText = document.querySelector('.tooltip-text');
+let timerId: number;
 copyButton?.addEventListener('click', () => {
   const resultURLText = document.querySelector('.url a')?.textContent as string;
   void navigator.clipboard.writeText(resultURLText);
+  if (timerId !== undefined) {
+    clearTimeout(timerId);
+  }
   if (tooltipText !== null) {
     tooltipText.textContent = 'Copied!';
   }
 });
-tooltipText?.addEventListener('transitionend', () => {
-  if (tooltipText !== null) {
-    tooltipText.textContent = 'Copy';
+document.querySelector('.tooltip')?.addEventListener('mouseleave', () => {
+  if (tooltipText === null) return;
+  if (tooltipText.textContent === 'Copied!') {
+    timerId = window.setTimeout(() => {
+      tooltipText.textContent = 'Copy';
+    }, 300);
   }
 });
