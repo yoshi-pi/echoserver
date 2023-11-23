@@ -26,6 +26,12 @@
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="msapplication-TileColor" content="#da532c" />
     <meta name="theme-color" content="#ffffff" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
     <script src="app.js" defer></script>
     <!-- Google tag (gtag.js) -->
@@ -54,11 +60,18 @@
     <main>
       <section class="tagline-container">
         <div class="tagline">
-          <h1 class="text-5xl">
+          <h1 class="text-5xl">echoserver.dev</h1>
+          <h2 class="text-3xl mt-lg text-primary">
             A simple echo server for testing HTTP clients.
-          </h1>
-          <h2 class="text-4xl mt-md">
+          </h2>
+          <h2 class="text-3xl mt-sm">
             Generate the URL and receive the response you want.
+          </h2>
+          <h2 class="text-base mt-lg text-main">
+            Run Locally:
+            <code
+              >$docker run -it --init --rm -p 5678:5678 yoshipy/echoserver</code
+            >
           </h2>
         </div>
       </section>
@@ -264,9 +277,7 @@
           </div>
           <section class="result-container">
             <div class="result-header">
-              <h2 class="text-primary text-3xl">
-                Use this URL to receive the response.
-              </h2>
+              <h2 class="text-3xl">👋 Use this URL to receive the response.</h2>
               <div class="tooltip mr-lg relative">
                 <div class="tooltip-text">Copy</div>
                 <button id="copy-button">
