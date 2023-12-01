@@ -4,7 +4,7 @@
 
 It generates a URL that returns the exact response you configured.
 
-If you are a frontend developer and need a temporary server for prototyping and mocking, use this tool.
+If you are a frontend developer and need a temporary server for prototyping or mocking, use this tool.
 
 ## Run Locally 💻
 
