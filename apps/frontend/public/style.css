@@ -86,6 +86,7 @@ code {
   background-color: #f6f8fa;
   padding: 8px 12px 8px 10px;
   border-radius: 5px;
+  display: block;
 }
 .logo {
   cursor: pointer;
