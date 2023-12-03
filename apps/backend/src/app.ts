@@ -123,7 +123,13 @@ const app = http.createServer((req, res) => {
         return;
       }
       res.writeHead(statusCode, headers);
-      return res.end(createRectangle(queryObj.body.size));
+      let mimeType: string | undefined;
+      headers?.forEach((header) => {
+        if (header[0].toLowerCase() === 'content-type') {
+          mimeType = header[1];
+        }
+      });
+      return res.end(createRectangle(queryObj.body.size, mimeType));
     }
     // text body
     if (queryObj.body.type === 'text') {
