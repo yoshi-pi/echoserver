@@ -4,5 +4,6 @@
     "module": "ES2015",
     "target": "ES2021",
     "outDir": "public"
-  }
+  },
+  "include": ["app.ts", ".eslintrc.js"]
 }

@@ -24,7 +24,7 @@ export const request = async ({
     };
     const req = http.request(options, (res) => {
       const chunks: Uint8Array[] = [];
-      res.on('data', (chunk) => {
+      res.on('data', (chunk: Uint8Array) => {
         chunks.push(chunk);
       });
       res.on('end', () => {

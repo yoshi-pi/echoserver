@@ -67,5 +67,5 @@ export const getHeaders = (
       }
     });
   });
-  return obj.headers.filter((header) => header[0] !== '');
+  return (obj.headers as string[][]).filter((header) => header[0] !== '');
 };

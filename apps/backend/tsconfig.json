@@ -5,5 +5,5 @@
     "module": "commonjs",
     "outDir": "server"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "./.eslintrc.js"]
 }

@@ -93,8 +93,11 @@ const syncURL = (): void => {
     (document.querySelector('#cors-status') as HTMLInputElement).value
   );
   resultURLObj.corsPreflight.status = CORSStatus;
-  const resultURLObjCopy: Pick<Partial<ResultURL>, 'corsPreflight'> &
-    Omit<ResultURL, 'corsPreflight'> = JSON.parse(JSON.stringify(resultURLObj));
+  const resultURLObjCopy = JSON.parse(JSON.stringify(resultURLObj)) as Pick<
+    Partial<ResultURL>,
+    'corsPreflight'
+  > &
+    Omit<ResultURL, 'corsPreflight'>;
   const CORSContainer = document.querySelector(
     '#cors-container'
   ) as HTMLDivElement;
