@@ -5,5 +5,5 @@
     "target": "ES2021",
     "outDir": "public"
   },
-  "include": ["app.ts", ".eslintrc.js"]
+  "include": ["app.ts", ".eslintrc.js", "typings/**/*"]
 }

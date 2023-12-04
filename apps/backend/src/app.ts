@@ -9,6 +9,7 @@ import {
   getHeaders,
 } from './utils';
 import { createRectangle } from './image';
+import { decompressFromEncodedURIComponent } from 'lz-string';
 
 const STATIC_PATH = path.join(process.cwd(), './apps/frontend/public');
 const prepareFile = async (
@@ -50,21 +51,37 @@ const app = http.createServer((req, res) => {
   }
   const requestURL = new URL(req.url, `http://${req.headers.host ?? ''}`);
   if (requestURL.pathname === '/server') {
-    const query = requestURL.searchParams.get('query');
-    if (query === null) {
-      handleBadRequest(res, 'There is no query parameter');
-      return;
-    }
     let queryObj: unknown;
-    try {
-      queryObj = JSON.parse(query);
-    } catch {
-      handleBadRequest(res, 'the query value must be a valid JSON string');
-      return;
-    }
-    if (!isObject(queryObj)) {
-      handleBadRequest(res, 'the query value must be a JSON object');
-      return;
+    const query = requestURL.searchParams.get('query');
+    const response = requestURL.searchParams.get('response');
+    // for old version
+    if (query !== null) {
+      try {
+        queryObj = JSON.parse(query);
+      } catch {
+        handleBadRequest(res, 'the query value must be a valid JSON string');
+        return;
+      }
+      if (!isObject(queryObj)) {
+        handleBadRequest(res, 'the query value must be a JSON object');
+        return;
+      }
+    } else {
+      // for new version
+      if (response === null) {
+        handleBadRequest(res, 'There is no query');
+        return;
+      }
+      try {
+        queryObj = JSON.parse(decompressFromEncodedURIComponent(response));
+      } catch {
+        handleBadRequest(res, 'the query value must be a valid JSON string');
+        return;
+      }
+      if (!isObject(queryObj)) {
+        handleBadRequest(res, 'the query value must be a JSON object');
+        return;
+      }
     }
 
     // CORS Preflight

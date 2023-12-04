@@ -104,12 +104,11 @@ const syncURL = (): void => {
   if (CORSContainer.hidden) {
     delete resultURLObjCopy.corsPreflight;
   }
-  URLElement.textContent = `${location.href}server?query=${encodeURIComponent(
+  const encodedQuery = LZString.compressToEncodedURIComponent(
     JSON.stringify(resultURLObjCopy)
-  )}`;
-  URLElement.href = `${location.href}server?query=${encodeURIComponent(
-    JSON.stringify(resultURLObjCopy)
-  )}`;
+  );
+  URLElement.textContent = `${location.href}server?response=${encodedQuery}`;
+  URLElement.href = `${location.href}server?response=${encodedQuery}`;
 };
 syncURL();
 window.addEventListener('input', () => {
