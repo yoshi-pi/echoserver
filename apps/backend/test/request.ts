@@ -1,4 +1,5 @@
 import http from 'http';
+import { compressToEncodedURIComponent } from 'lz-string';
 
 interface RequestConfig {
   method: string;
@@ -18,7 +19,7 @@ export const request = async ({
     const options = {
       hostname: 'localhost',
       port: 5678,
-      path: `/server?query=${encodeURIComponent(query)}`,
+      path: `/server?response=${compressToEncodedURIComponent(query)}`,
       method,
       headers,
     };
