@@ -123,8 +123,15 @@ const app = http.createServer((req, res) => {
 
     // Body
     if (queryObj.body === undefined) {
-      res.writeHead(statusCode, headers);
-      return res.end();
+      try {
+        res.writeHead(statusCode, headers);
+        return res.end();
+      } catch (error) {
+        if (error instanceof Error) {
+          handleBadRequest(res, error.message);
+          return;
+        }
+      }
     }
     if (!isObject(queryObj.body)) {
       handleBadRequest(res, 'the value of body must be an object');
@@ -139,7 +146,14 @@ const app = http.createServer((req, res) => {
         );
         return;
       }
-      res.writeHead(statusCode, headers);
+      try {
+        res.writeHead(statusCode, headers);
+      } catch (error) {
+        if (error instanceof Error) {
+          handleBadRequest(res, error.message);
+          return;
+        }
+      }
       let mimeType: string | undefined;
       headers?.forEach((header) => {
         if (header[0].toLowerCase() === 'content-type') {
@@ -156,8 +170,15 @@ const app = http.createServer((req, res) => {
       } else {
         resBody = queryObj.body.data;
       }
-      res.writeHead(statusCode, headers);
-      return res.end(resBody);
+      try {
+        res.writeHead(statusCode, headers);
+        return res.end(resBody);
+      } catch (error) {
+        if (error instanceof Error) {
+          handleBadRequest(res, error.message);
+          return;
+        }
+      }
     }
     handleBadRequest(res, 'the value of type must be either text or image');
   } else {
