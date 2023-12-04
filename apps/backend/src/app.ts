@@ -160,18 +160,19 @@ const app = http.createServer((req, res) => {
       return res.end(resBody);
     }
     handleBadRequest(res, 'the value of type must be either text or image');
-    return;
+  } else {
+    prepareFile(req.url)
+      .then((file) => {
+        const statusCode = file.found ? 200 : 404;
+        const mimeType =
+          MIME_TYPES[file.ext as keyof typeof MIME_TYPES] ?? MIME_TYPES.default;
+        res.writeHead(statusCode, { 'Content-Type': mimeType });
+        file.stream.pipe(res);
+      })
+      .catch(() => {
+        throw new Error('somthing wrong');
+      });
   }
-  async function tmp(): Promise<void> {
-    if (req.url === undefined) return;
-    const file = await prepareFile(req.url);
-    const statusCode = file.found ? 200 : 404;
-    const mimeType =
-      MIME_TYPES[file.ext as keyof typeof MIME_TYPES] ?? MIME_TYPES.default;
-    res.writeHead(statusCode, { 'Content-Type': mimeType });
-    file.stream.pipe(res);
-  }
-  void tmp();
 });
 
 export default app;
