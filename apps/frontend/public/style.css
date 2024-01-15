@@ -182,7 +182,8 @@ select {
   border-radius: 4px;
   width: 100px;
   padding: 8px;
-  outline: none;
+  background-color: white;
+  color: var(--main-text-color);
 }
 select:hover {
   border-color: var(--main-text-color);
