@@ -21,6 +21,6 @@ docker run -it --init --rm -p 5678:5678 yoshipy/echoserver
 - A resizable image can be set to the body
 - CORS support
 
-## Try it online 👍
+## Try it online 👋
 
 Visit <https://echoserver.dev>
