@@ -219,3 +219,6 @@ document.querySelector('.tooltip')?.addEventListener('mouseleave', () => {
     }, 300);
   }
 });
+(document.querySelector('.year') as HTMLSpanElement).textContent = String(
+  new Date().getFullYear()
+);

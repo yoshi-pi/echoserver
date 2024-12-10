@@ -5,7 +5,8 @@
 body,
 h1,
 h2,
-h3 {
+h3,
+p {
   margin: 0;
 }
 .ml-md {
@@ -96,7 +97,6 @@ code {
   color: var(--main-text-color);
 }
 .github {
-  cursor: pointer;
   text-decoration: none;
   color: var(--main-text-color);
 }
@@ -280,10 +280,19 @@ textarea:hover {
   padding-right: 24px;
   margin: 8px 0;
 }
+footer {
+  margin: 0 auto;
+  padding: 30px 0;
+  width: 888px;
+}
+.me {
+  color: var(--main-text-color);
+}
 @media screen and (max-width: 900px) {
   nav,
   .tagline,
-  .generator {
+  .generator,
+  footer {
     width: 100%;
     box-sizing: border-box;
     padding: 0 24px;
@@ -292,7 +301,8 @@ textarea:hover {
 @media screen and (max-width: 640px) {
   nav,
   .tagline,
-  .generator {
+  .generator,
+  footer {
     padding: 0 16px;
   }
   .mt-md {
